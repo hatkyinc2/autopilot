@@ -1,6 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const outputFolder = 'suggestions';
+const logsDirectory = 'logs';
+const logsExtension = '.txt';
+
+// Saves logs to logs folder
+function saveLog(text) {
+    const logsDir = path.join(__dirname, '..' ,logsDirectory);
+    const fileName = `${logsFilename}${logsExtension}`;
+    fs.appendFileSync(path.join(logsDir, fileName), `${text} \n\n*******\n\n`);
+}
 
 // Saves output to suggestions
 function saveOutput(task, solution) {
@@ -15,5 +24,6 @@ function saveOutput(task, solution) {
 }
 
 module.exports= {
-    saveOutput
+    saveOutput,
+    saveLog
 }
