@@ -9,7 +9,6 @@ let totalTokensUsed = 0
 let completionTokens = 0
 let promptTokens = 0
 let cost = 0
-const logsFilename = new Date().toISOString().replace(/:/g, '-')
 
 const modelCostMap = {
   "gpt-4": {"promptTokensCost": 0.03, "completionTokensCost": 0.06},
