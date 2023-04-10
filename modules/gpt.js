@@ -1,9 +1,9 @@
 const chalk = require('chalk');
 require('dotenv').config()
 const { Configuration, OpenAIApi } = require("openai");
-const fs = require('fs');
-const path = require('path');
 const { get_encoding } = require('@dqbd/tiktoken');
+const {saveLog} = require('./fsOutput');
+
 let totalTokensUsed = 0
 let completionTokens = 0
 let promptTokens = 0
@@ -31,7 +31,7 @@ const callGPT = async (prompt, model) => {
   }
 
   console.log("Calling GPT. Model: ", model)
-  log(`Model: ${model}\nPrompt:\n${prompt}`)
+  saveLog(`Model: ${model}\nPrompt:\n${prompt}`)
   try {
     const completion = await openai.createChatCompletion({
       model: model,
@@ -52,7 +52,7 @@ const callGPT = async (prompt, model) => {
     console.log(`Total tokens used: ${chalk.yellow(totalTokensUsed)}`, `Total Cost: ${chalk.yellow(cost.toFixed(2))}$`) // log total tokens used
 
     const reply = completion.data.choices[0].message.content
-    log("Reply:\n" + reply)
+    saveLog("Reply:\n" + reply)
     // return output
     return reply
 
@@ -78,17 +78,6 @@ function calculateTokensCost(model, promptTokens, completionTokens, totalTokensU
   }
 }
 
-// Save logs of all GPT calls
-function log(text) {
-  const suggestionsDir = path.join(__dirname, '..' ,'logs');
-  const fileName = `${logsFilename}.txt`;
-  // Ensure folder exists
-  if (!fs.existsSync(suggestionsDir)) {
-    fs.mkdirSync(suggestionsDir);
-  }
-  // Write the suggestion to the file
-  fs.appendFileSync(path.join(suggestionsDir, fileName), `${text} \n\n*******\n\n`);
- }
 
 function jsonParseWithValidate(json) {
   try {
