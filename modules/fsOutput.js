@@ -3,6 +3,7 @@ const path = require('path');
 const outputFolder = 'suggestions';
 const logsDirectory = 'logs';
 const logsExtension = '.txt';
+const logsFilename = new Date().toISOString().replace(/:/g, '-')
 
 // Saves logs to logs folder
 function saveLog(text) {
