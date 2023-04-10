@@ -2,6 +2,7 @@ const chalk = require('chalk');
 require('dotenv').config()
 const { Configuration, OpenAIApi } = require("openai");
 const { get_encoding } = require('@dqbd/tiktoken');
+const jsonParseWithValidate = require('./jsonHelpers').jsonParseWithValidate;
 const {saveLog} = require('./fsOutput');
 
 let totalTokensUsed = 0
@@ -78,15 +79,6 @@ function calculateTokensCost(model, promptTokens, completionTokens, totalTokensU
   }
 }
 
-
-function jsonParseWithValidate(json) {
-  try {
-    return JSON.parse(json);
-  } catch (error) {
-    console.log('failed to parse JSON',error,json)
-    throw new Error('Invalid JSON');
-  }
-}
 
 module.exports= {
   callGPT,
